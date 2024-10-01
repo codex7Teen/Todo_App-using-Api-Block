@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:todo_app_api_block/model/todo_model.dart';
 
 class ApiServices {
-  final String baseUrl = 'https://api.nstack.in/v1/todos';
 
   //! GET Todo FROM API
   Future<List<TodoModel>> fetchTodos() async {
@@ -22,20 +21,6 @@ class ApiServices {
     }
   }
 
-  //! DELETE Todo FROM API by ID
-  Future<void> deleteTodoById(String id) async {
-    final baseUrl = 'https://api.nstack.in/v1/todos/';
-    final url = '$baseUrl$id';
-    final uri = Uri.parse(url);
-
-    final response = await http.delete(uri);
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to delete Todo');
-    } else {
-          log('DELETE SUCCESS');
-        }
-  }
 
   //! ADD NEW Todo TO API
   Future<void> addTodo(TodoModel todo) async {
@@ -49,8 +34,8 @@ class ApiServices {
     if (response.statusCode != 201) {
       throw Exception('Failed to add todo');
     } else {
-          log('ADD SUCCESS');
-        }
+      log('ADD SUCCESS');
+    }
   }
 
 
@@ -64,11 +49,28 @@ class ApiServices {
         body: jsonEncode(todo.toJson()),
         headers: {'Content-Type': 'application/json'});
 
-        if(response.statusCode != 200) {
-          throw Exception('Failed to update todo');
-        } else {
-          log('UPDATE SUCCESS');
-        }
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update todo');
+    } else {
+      log('UPDATE SUCCESS');
+    }
   }
+
+
+  //! DELETE Todo FROM API by ID
+  Future<void> deleteTodoById(String id) async {
+    final baseUrl = 'https://api.nstack.in/v1/todos/';
+    final url = '$baseUrl$id';
+    final uri = Uri.parse(url);
+
+    final response = await http.delete(uri);
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete Todo');
+    } else {
+      log('DELETE SUCCESS');
+    }
+  }
+
 
 }
