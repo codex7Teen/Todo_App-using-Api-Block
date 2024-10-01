@@ -5,10 +5,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:todo_app_api_block/data/my_data.dart';
 
 class ScreenAddTodo extends StatefulWidget {
-  const ScreenAddTodo({super.key});
+  final Map? todo;
+  const ScreenAddTodo({super.key, this.todo});
 
   @override
   State<ScreenAddTodo> createState() => _ScreenAddTodoState();
@@ -19,12 +19,22 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
+  bool isEdit = false;
+
+  @override
+  void initState() {
+   if(widget.todo != null) {
+    isEdit = true;
+   }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Add Todo'),
+        title: isEdit ?  Text('Edit Todo') :Text('Add Todo'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -49,14 +59,14 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
             SizedBox(height: 20,),
             ElevatedButton(onPressed: () {
               submitData();
-            }, child: Text('Submit'))
+            }, child: isEdit? Text('Update') : Text('Submit'))
           ],
         ),
       ),
     );
   }
 
-  // submit all the inputs
+  //! submit all data
   void submitData() async {
     // get the data from form
     final title = titleController.text;
@@ -68,10 +78,9 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
   "description": description,
   "is_completed": false
 };
-
+ 
     // submit data to the server
-    final baseUrl = 'https://api.nstack.in/v1/todos';
-    final url = "$baseUrl?key=$apiKey";
+    final url = 'https://api.nstack.in/v1/todos';
     final uri = Uri.parse(url);
 
     final response = await http.post(uri, body: jsonEncode(body), headers: {'Content-Type': 'application/json'});
@@ -80,8 +89,19 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
 
     if(response.statusCode == 201) {
       log('Post Success.. :)');
+      titleController.text = '';
+      descriptionController.text = '';
+      showSuccessSnackbar('Todo submitted successfully...😊');
     } else {
       log('Post Failed!');
+      showSuccessSnackbar('Failed to submit... 😔');
     }
   }
+
+  //! snackbar
+  void showSuccessSnackbar(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
 }
