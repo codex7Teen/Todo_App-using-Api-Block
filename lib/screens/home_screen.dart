@@ -41,41 +41,50 @@ class _ScreenHomeState extends State<ScreenHome> {
         child: Center(child: CircularProgressIndicator()),
         replacement: RefreshIndicator(
           onRefresh: () => fetchTodo(),
-          child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              // all data
-              final data = items[index] as Map;
-              // id
-              final id = data['_id'] as String;
-              return ListTile(
-                title: Text(data['title']),
-                subtitle: Text(data['description']),
-                leading: CircleAvatar(
-                  child: Text('${index + 1}'),
-                ),
-                trailing: PopupMenuButton(
-                  onSelected: (value) {
-                    if(value == 'edit') {
-                      // perform edit
-                      navigateToEditPage(data);
-                    } else {
-                      // perform delete
-                      deleteById(id);
-                    }
-                  },
-                  itemBuilder: (context) {
-                  return [
-                    PopupMenuItem(
-                      value: 'edit',
-                      child: Text("Edit")),
-                    PopupMenuItem(
-                      value: 'delete',
-                      child: Text("Delete")),
-                  ];
-                }),
-              );
-            },
+          child: Visibility(
+            visible: items.isNotEmpty,
+            replacement: Center(child: Text('No Todo Items'),),
+            child: ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                // all data
+                final data = items[index] as Map;
+                // id
+                final id = data['_id'] as String;
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    child: ListTile(
+                      title: Text(data['title']),
+                      subtitle: Text(data['description']),
+                      leading: CircleAvatar(
+                        child: Text('${index + 1}'),
+                      ),
+                      trailing: PopupMenuButton(
+                        onSelected: (value) {
+                          if(value == 'edit') {
+                            // perform edit
+                            navigateToEditPage(data);
+                          } else {
+                            // perform delete
+                            deleteById(id);
+                          }
+                        },
+                        itemBuilder: (context) {
+                        return [
+                          PopupMenuItem(
+                            value: 'edit',
+                            child: Text("Edit")),
+                          PopupMenuItem(
+                            value: 'delete',
+                            child: Text("Delete")),
+                        ];
+                      }),
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -83,9 +92,13 @@ class _ScreenHomeState extends State<ScreenHome> {
   }
 
   //! Navigate to edit page
-  void navigateToEditPage(Map item) {
+  Future<void> navigateToEditPage(Map item) async {
     final route = MaterialPageRoute(builder: (context) => ScreenAddTodo(todo: item,));
-    Navigator.push(context, route);
+    await Navigator.push(context, route);
+    setState(() {
+      isLoading = true;
+    });
+    fetchTodo();
   }
 
   //! Navigate to add page
