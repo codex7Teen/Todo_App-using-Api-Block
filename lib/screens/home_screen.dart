@@ -43,7 +43,7 @@ class ScreenHome extends StatelessWidget {
                     trailing: PopupMenuButton(onSelected: (value) {
                       if (value == 'edit') {
                         // perform edit
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenAddTodo()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenAddTodo(todo: data,)));
                       } else {
                         // perform delete
                         context.read<TodoBloc>().add(DeleteTodo(data.id));
