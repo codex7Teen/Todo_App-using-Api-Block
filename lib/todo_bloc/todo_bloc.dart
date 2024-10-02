@@ -8,8 +8,6 @@ part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository todoRepository;
-  // Tracks first fetch
-  bool _isFirstFetch = true;
 
   TodoBloc(this.todoRepository) : super(TodoInitial()) {
     //! Handling Fetch todo event
@@ -17,8 +15,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       emit(TodoLoading());
       try {
         final todos = await todoRepository.fetchTodos();
-  
-        if(todos.isEmpty) {
+
+        if (todos.isEmpty) {
           // Emit empty state if there are no todos
           emit(TodoEmpty());
         } else {
@@ -36,7 +34,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         await todoRepository.addTodo(event.todo);
         add(FetchTodos());
       } catch (e) {
-        emit(TodoError('Failed to add todo'));
+        emit(TodoError('Failed to add todo ! 🙁'));
       }
     });
 
@@ -46,21 +44,19 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         await todoRepository.updateTodoById(event.todo);
         add(FetchTodos());
       } catch (e) {
-        emit(TodoError('Failed to update Todo...'));
+        emit(TodoError('Failed to update Todo ! 🙁'));
       }
     });
 
     //! Handling Deleting a todo event
     on<DeleteTodo>((event, emit) async {
       try {
-      await todoRepository.deleteTodoById(event.id);
-      emit(TodoDeleted("Todo delted successfully! 🗑️"));
-      add(FetchTodos());
+        await todoRepository.deleteTodoById(event.id);
+        emit(TodoDeleted("Todo deleted successfully! ✔️"));
+        add(FetchTodos());
       } catch (e) {
         emit(TodoError('Failed to delte Todo...'));
       }
     });
-
-
   }
 }

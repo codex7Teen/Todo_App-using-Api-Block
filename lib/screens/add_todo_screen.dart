@@ -5,7 +5,7 @@ import 'package:todo_app_api_block/todo_bloc/todo_bloc.dart';
 import 'package:todo_app_api_block/widget/snackbar.dart';
 
 class ScreenAddTodo extends StatefulWidget {
-  // IF todo is not null, we are editing
+  // If todo is not null, we are editing
   final TodoModel? todo;
   const ScreenAddTodo({super.key, this.todo});
 
@@ -17,7 +17,7 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  // if this is false, we are adding, or if its true then we edit
   bool isEdit = false;
 
   @override
@@ -26,8 +26,10 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
     // IF todo is not null, we are editing
     if (todo != null) {
       isEdit = true;
+      // getting data from homescreen
       final title = todo.title;
       final description = todo.description;
+      // placing the data in textfields
       titleController.text = title;
       descriptionController.text = description;
     }
@@ -58,6 +60,7 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          // showing appbar title according to add or update
           title: Text(isEdit ? 'Update Todo' : 'Add Todo'),
         ),
         body: Padding(
@@ -76,9 +79,11 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: titleController,
-                  decoration: InputDecoration(hintText: 'Enter title' ,hintStyle: TextStyle(fontWeight: FontWeight.w400)),
+                  decoration: const InputDecoration(
+                      hintText: 'Enter title',
+                      hintStyle: TextStyle(fontWeight: FontWeight.w400)),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
@@ -91,19 +96,22 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: descriptionController,
-                  decoration: InputDecoration(hintText: 'Enter Description',hintStyle: TextStyle(fontWeight: FontWeight.w400)),
+                  decoration: const InputDecoration(
+                      hintText: 'Enter Description',
+                      hintStyle: TextStyle(fontWeight: FontWeight.w400)),
                   keyboardType: TextInputType.multiline,
                   minLines: 5,
                   maxLines: 8,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   child: ElevatedButton(
-                      style: ButtonStyle(elevation: WidgetStatePropertyAll(2)),
+                      style: const ButtonStyle(
+                          elevation: WidgetStatePropertyAll(2)),
                       onPressed: () {
                         // validate and submit data
                         if (_formKey.currentState!.validate()) {
@@ -113,9 +121,12 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
                       child: Padding(
                         padding: const EdgeInsets.all(15),
                         child: Text(
+                          // showing button text according to add or update
                           isEdit ? 'Update' : 'Submit',
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.purple),
+                          style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.purple),
                         ),
                       )),
                 )

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app_api_block/repositories/todo_repository.dart';
@@ -8,7 +7,7 @@ import 'package:todo_app_api_block/theme_block/theme_bloc.dart';
 import 'package:todo_app_api_block/todo_bloc/todo_bloc.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -35,9 +34,10 @@ class MyApp extends StatelessWidget {
         builder: (context, themeState) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+            // allowing the theme-bloc to decide the app theme
             theme: themeState.themeData,
             title: 'Todo_App_Using_Api & Block',
-            home: ScreenSplash(),
+            home: const ScreenSplash(),
           );
         },
       ),

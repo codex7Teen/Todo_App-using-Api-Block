@@ -30,6 +30,7 @@ class TodoModel extends Equatable {
     };
   }
 
+  // Overriding props to enable value comparison for equality checks
   @override
   List<Object?> get props => [id, title, description, isCompleted];
 }

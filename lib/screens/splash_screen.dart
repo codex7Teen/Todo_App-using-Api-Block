@@ -11,7 +11,6 @@ class ScreenSplash extends StatefulWidget {
 }
 
 class _ScreenSplashState extends State<ScreenSplash> {
-
   // Navigate to Homescreen after 3 seconds
   @override
   void initState() {
@@ -53,7 +52,8 @@ class _ScreenSplashState extends State<ScreenSplash> {
             child: Container(
               height: 300,
               width: 600,
-              decoration: const BoxDecoration(color: Color.fromARGB(255, 47, 6, 141)),
+              decoration:
+                  const BoxDecoration(color: Color.fromARGB(255, 47, 6, 141)),
             ),
           ),
           BackdropFilter(

@@ -11,22 +11,29 @@ class ScreenViewTodo extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('View ToDo', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('View ToDo',
+            style: TextStyle(fontWeight: FontWeight.bold)),
       ),
+      //! B O D Y
       body: Center(
         child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(todo.title, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20)),
-                SizedBox(height: 30,),
-                Text(todo.description, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16))
-              ],
-            ),
-          )
-        ),
+            child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Title text
+              Text(todo.title,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w400, fontSize: 20)),
+              const SizedBox(height: 25),
+              // Description text
+              Text(todo.description,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w400, fontSize: 16))
+            ],
+          ),
+        )),
       ),
     );
   }

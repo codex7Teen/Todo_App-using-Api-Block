@@ -7,7 +7,7 @@ import 'package:todo_app_api_block/model/todo_model.dart';
 class ApiServices {
   //! GET Todo FROM API
   Future<List<TodoModel>> fetchTodos() async {
-    final url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
+    const url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
 
@@ -22,7 +22,7 @@ class ApiServices {
 
   //! ADD NEW Todo TO API
   Future<void> addTodo(TodoModel todo) async {
-    final url = 'https://api.nstack.in/v1/todos';
+    const url = 'https://api.nstack.in/v1/todos';
     final uri = Uri.parse(url);
 
     final response = await http.post(uri,
@@ -38,7 +38,7 @@ class ApiServices {
 
   //! UPDATE Todo IN API
   Future<void> updateTodoById(TodoModel todo) async {
-    final baseUrl = 'https://api.nstack.in/v1/todos/';
+    const baseUrl = 'https://api.nstack.in/v1/todos/';
     final url = '$baseUrl${todo.id}';
     final uri = Uri.parse(url);
 
@@ -55,7 +55,7 @@ class ApiServices {
 
   //! DELETE Todo FROM API by ID
   Future<void> deleteTodoById(String id) async {
-    final baseUrl = 'https://api.nstack.in/v1/todos/';
+    const baseUrl = 'https://api.nstack.in/v1/todos/';
     final url = '$baseUrl$id';
     final uri = Uri.parse(url);
 
