@@ -8,6 +8,8 @@ part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository todoRepository;
+  // Tracks first fetch
+  bool _isFirstFetch = true;
 
   TodoBloc(this.todoRepository) : super(TodoInitial()) {
     //! Handling Fetch todo event

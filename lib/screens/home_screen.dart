@@ -6,12 +6,13 @@ import 'package:todo_app_api_block/todo_bloc/todo_bloc.dart';
 import 'package:todo_app_api_block/widget/snackbar.dart';
 
 class ScreenHome extends StatelessWidget {
+  // bool to track the first fetch of data
+  static bool isFirstFetch = false;
+
   const ScreenHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // bool to track the first fetch of data
-    bool isFirstFetch = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,6 +36,7 @@ class ScreenHome extends StatelessWidget {
           )
         ],
       ),
+
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: Colors.purpleAccent,
           onPressed: () {
@@ -80,7 +82,8 @@ class ScreenHome extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 17),
                         ),
-                        subtitle: Text(data.description),
+                        subtitle: Text(data.description,
+                        ),
                         leading: CircleAvatar(
                           backgroundColor: Colors.purpleAccent,
                           child: Text('${index + 1}'),

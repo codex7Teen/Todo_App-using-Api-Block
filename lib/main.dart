@@ -1,9 +1,8 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app_api_block/repositories/todo_repository.dart';
-import 'package:todo_app_api_block/screens/home_screen.dart';
+import 'package:todo_app_api_block/screens/splash_screen.dart';
 import 'package:todo_app_api_block/services/api_services.dart';
 import 'package:todo_app_api_block/theme_block/theme_bloc.dart';
 import 'package:todo_app_api_block/todo_bloc/todo_bloc.dart';
@@ -33,12 +32,12 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
+        builder: (context, themeState) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: state.themeData,
+            theme: themeState.themeData,
             title: 'Todo_App_Using_Api & Block',
-            home: ScreenHome(),
+            home: ScreenSplash(),
           );
         },
       ),

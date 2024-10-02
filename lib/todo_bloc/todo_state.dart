@@ -29,7 +29,6 @@ class TodoLoaded extends TodoState {
 class TodoEmpty extends TodoState {}
 
 
-
 //! Error state in case API Got failure
 class TodoError extends TodoState {
   final String message;

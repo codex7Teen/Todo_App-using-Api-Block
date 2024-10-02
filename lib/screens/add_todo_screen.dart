@@ -76,7 +76,7 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: titleController,
-                  decoration: InputDecoration(hintText: 'Title'),
+                  decoration: InputDecoration(hintText: 'Enter title' ,hintStyle: TextStyle(fontWeight: FontWeight.w400)),
                 ),
                 SizedBox(
                   height: 20,
@@ -91,7 +91,7 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: descriptionController,
-                  decoration: InputDecoration(hintText: 'Description'),
+                  decoration: InputDecoration(hintText: 'Enter Description',hintStyle: TextStyle(fontWeight: FontWeight.w400)),
                   keyboardType: TextInputType.multiline,
                   minLines: 5,
                   maxLines: 8,
