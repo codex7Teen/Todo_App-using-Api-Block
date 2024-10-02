@@ -18,7 +18,7 @@ class ScreenHome extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('ToDo List', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('ToDo List', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           BlocBuilder<ThemeBloc, ThemeState>(
             builder: (context, state) {
@@ -42,23 +42,29 @@ class ScreenHome extends StatelessWidget {
           backgroundColor: Colors.purple,
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ScreenAddTodo()));
+                MaterialPageRoute(builder: (context) => const ScreenAddTodo()));
           },
-          label: Text('Add Todo',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))),
+          label: const Row(
+            children: [
+              Icon(Icons.add),
+              SizedBox(width: 5,),
+              Text('Add Todo',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            ],
+          )),
 
       //! body
       body: BlocListener<TodoBloc, TodoState>(
         listener: (context, state) {
           if (state is TodoDeleted) {
             // Show snackbar when a todo has been deleted
-            showCustomSnackBar(context, "Todo delted successfully! 🗑️");
+            showCustomSnackBar(context, "Todo delted successfully! ✔️");
           }
         },
         child: BlocBuilder<TodoBloc, TodoState>(
           builder: (context, state) {
             if (state is TodoLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is TodoLoaded) {
               // Show snackbar only the first time the todos are fetched successfully
               if (!isFirstFetch) {
@@ -84,7 +90,7 @@ class ScreenHome extends StatelessWidget {
                           title: Text(
                             data.title,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 17),
                           ),
                           subtitle: Text(data.description,
@@ -115,10 +121,22 @@ class ScreenHome extends StatelessWidget {
                               },
                               itemBuilder: (context) {
                                 return [
-                                  PopupMenuItem(
-                                      value: 'edit', child: Text("Edit")),
-                                  PopupMenuItem(
-                                      value: 'delete', child: Text("Delete")),
+                                  const PopupMenuItem(
+                                      value: 'edit', child: Row(
+                                        children: [
+                                          Icon(Icons.edit, size: 18),
+                                          SizedBox(width: 5),
+                                          Text("Edit"),
+                                        ],
+                                      )),
+                                  const PopupMenuItem(
+                                      value: 'delete', child: Row(
+                                        children: [
+                                          Icon(Icons.delete, size: 18),
+                                          SizedBox(width: 5),
+                                          Text("Delete"),
+                                        ],
+                                      )),
                                 ];
                               }),
                         ),
@@ -130,10 +148,10 @@ class ScreenHome extends StatelessWidget {
             } else if (state is TodoError) {
               return Center(child: Text(state.message));
             } else if (state is TodoEmpty) {
-              return Center(child: Text('No todos available...'));
+              return const Center(child: Text('No Todos available !', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),));
             }
-            return Center(
-              child: Text("Something went wrong!"),
+            return const Center(
+              child: Text("Something went wrong!",  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),),
             );
           },
         ),

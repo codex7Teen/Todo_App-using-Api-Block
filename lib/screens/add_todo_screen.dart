@@ -61,7 +61,7 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
           title: Text(isEdit ? 'Update Todo' : 'Add Todo'),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(15),
           child: Form(
             key: _formKey,
             child: ListView(
@@ -111,7 +111,7 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
                         }
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(15),
                         child: Text(
                           isEdit ? 'Update' : 'Submit',
                           style: TextStyle(
