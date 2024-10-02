@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:todo_app_api_block/model/todo_model.dart';
 
 class ApiServices {
-
   //! GET Todo FROM API
   Future<List<TodoModel>> fetchTodos() async {
     final url = 'https://api.nstack.in/v1/todos?page=1&limit=10';
@@ -20,7 +19,6 @@ class ApiServices {
       throw Exception('Failed to fetch Todos');
     }
   }
-
 
   //! ADD NEW Todo TO API
   Future<void> addTodo(TodoModel todo) async {
@@ -37,7 +35,6 @@ class ApiServices {
       log('ADD SUCCESS');
     }
   }
-
 
   //! UPDATE Todo IN API
   Future<void> updateTodoById(TodoModel todo) async {
@@ -56,7 +53,6 @@ class ApiServices {
     }
   }
 
-
   //! DELETE Todo FROM API by ID
   Future<void> deleteTodoById(String id) async {
     final baseUrl = 'https://api.nstack.in/v1/todos/';
@@ -71,6 +67,4 @@ class ApiServices {
       log('DELETE SUCCESS');
     }
   }
-
-
 }

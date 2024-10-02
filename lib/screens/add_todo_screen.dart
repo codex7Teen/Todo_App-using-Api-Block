@@ -16,6 +16,7 @@ class ScreenAddTodo extends StatefulWidget {
 class _ScreenAddTodoState extends State<ScreenAddTodo> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool isEdit = false;
 
@@ -42,14 +43,15 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
           final message = isEdit
               ? 'Todo updated successfully! 🎉🎉'
               : 'Todo added successfully! 🎉🎉';
-              showCustomSnackBar(context, message);
-              // clear the field after adding a todo
-              if(!isEdit) {
-                titleController.text = '';
-                descriptionController.text = '';
-              }
-              
-        } else if(state is TodoError) {
+          showCustomSnackBar(context, message);
+          // clear the field after adding a todo
+          if (!isEdit) {
+            titleController.text = '';
+            descriptionController.text = '';
+            // calling this will help to reset the form state (to prevent the validation error displayed)
+            _formKey.currentState?.reset();
+          }
+        } else if (state is TodoError) {
           showCustomSnackBar(context, state.message);
         }
       },
@@ -60,34 +62,65 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(10),
-          child: ListView(
-            children: [
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(hintText: 'Title'),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextField(
-                controller: descriptionController,
-                decoration: InputDecoration(hintText: 'Description'),
-                keyboardType: TextInputType.multiline,
-                minLines: 5,
-                maxLines: 8,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    isEdit ? _updateTodo() : _addTodo();
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a title';
+                    } else {
+                      return null;
+                    }
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(18),
-                    child: Text(isEdit ? 'Update' : 'Submit'),
-                  ))
-            ],
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: titleController,
+                  decoration: InputDecoration(hintText: 'Title'),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a description';
+                    } else {
+                      return null;
+                    }
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: descriptionController,
+                  decoration: InputDecoration(hintText: 'Description'),
+                  keyboardType: TextInputType.multiline,
+                  minLines: 5,
+                  maxLines: 8,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: ElevatedButton(
+                      style: ButtonStyle(elevation: WidgetStatePropertyAll(2)),
+                      onPressed: () {
+                        // validate and submit data
+                        if (_formKey.currentState!.validate()) {
+                          isEdit ? _updateTodo() : _addTodo();
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Text(
+                          isEdit ? 'Update' : 'Submit',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.w500),
+                        ),
+                      )),
+                )
+              ],
+            ),
           ),
         ),
       ),
