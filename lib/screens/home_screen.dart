@@ -38,7 +38,7 @@ class ScreenHome extends StatelessWidget {
       ),
 
       floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: Colors.purpleAccent,
+          backgroundColor: Colors.purple,
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ScreenAddTodo()));
@@ -85,11 +85,11 @@ class ScreenHome extends StatelessWidget {
                         subtitle: Text(data.description,
                         ),
                         leading: CircleAvatar(
-                          backgroundColor: Colors.purpleAccent,
+                          backgroundColor: Colors.purple,
                           child: Text('${index + 1}'),
                         ),
                         trailing: PopupMenuButton(
-                            iconColor: Colors.purpleAccent,
+                            iconColor: Colors.purple,
                             onSelected: (value) {
                               if (value == 'edit') {
                                 // perform edit

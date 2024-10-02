@@ -115,7 +115,7 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
                         child: Text(
                           isEdit ? 'Update' : 'Submit',
                           style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w500),
+                              fontSize: 17, fontWeight: FontWeight.w500, color: Colors.purple),
                         ),
                       )),
                 )
