@@ -15,7 +15,14 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       emit(TodoLoading());
       try {
         final todos = await todoRepository.fetchTodos();
-        emit(TodoLoaded(todos));
+  
+        if(todos.isEmpty) {
+          // Emit empty state if there are no todos
+          emit(TodoEmpty());
+        } else {
+          // load all the todo list to todoloaded state
+          emit(TodoLoaded(todos));
+        }
       } catch (e) {
         emit(TodoError('Failed to fetch Todos...'));
       }
@@ -45,6 +52,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<DeleteTodo>((event, emit) async {
       try {
       await todoRepository.deleteTodoById(event.id);
+      emit(TodoDeleted("Todo delted successfully! 🗑️"));
       add(FetchTodos());
       } catch (e) {
         emit(TodoError('Failed to delte Todo...'));

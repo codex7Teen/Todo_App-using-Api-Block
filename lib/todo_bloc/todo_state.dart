@@ -25,11 +25,27 @@ class TodoLoaded extends TodoState {
 }
 
 
+//! Empty state when fetched todo list is empty
+class TodoEmpty extends TodoState {}
+
+
+
 //! Error state in case API Got failure
 class TodoError extends TodoState {
   final String message;
 
   TodoError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+
+//! State when todo is successfully delted
+class TodoDeleted extends TodoState {
+  final String message;
+
+  TodoDeleted(this.message);
 
   @override
   List<Object?> get props => [message];

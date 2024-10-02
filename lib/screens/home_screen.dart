@@ -25,64 +25,76 @@ class ScreenHome extends StatelessWidget {
           label: Text('Add Todo')),
 
       //! body
-      body: BlocBuilder<TodoBloc, TodoState>(
-        builder: (context, state) {
-          if (state is TodoLoading) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is TodoLoaded) {
-             // Show snackbar only the first time the todos are fetched successfully
-              if(!isFirstFetch) {
+      body: BlocListener<TodoBloc, TodoState>(
+        listener: (context, state) {
+          if(state is TodoDeleted) {
+            // Show snackbar when a todo has been deleted
+            showCustomSnackBar(context, "Todo delted successfully! 🗑️");
+          }
+        },
+        child: BlocBuilder<TodoBloc, TodoState>(
+          builder: (context, state) {
+            if (state is TodoLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is TodoLoaded) {
+              // Show snackbar only the first time the todos are fetched successfully
+              if (!isFirstFetch) {
                 isFirstFetch = true;
                 Future.delayed(Duration.zero, () {
-                   showCustomSnackBar(context, "Todos fetched successfully! 🎉🎉");
+                  showCustomSnackBar(
+                      context, "Todos fetched successfully! 🎉🎉");
                 });
-               
               }
-            final todos = state.todos;
-            return ListView.builder(
-              itemCount: todos.length,
-              itemBuilder: (context, index) {
-                // all data
-                final data = todos[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: ListTile(
-                      title: Text(data.title),
-                      subtitle: Text(data.description),
-                      leading: CircleAvatar(
-                        child: Text('${index + 1}'),
+              final todos = state.todos;
+              return ListView.builder(
+                itemCount: todos.length,
+                itemBuilder: (context, index) {
+                  // all data
+                  final data = todos[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: ListTile(
+                        title: Text(data.title),
+                        subtitle: Text(data.description),
+                        leading: CircleAvatar(
+                          child: Text('${index + 1}'),
+                        ),
+                        trailing: PopupMenuButton(onSelected: (value) {
+                          if (value == 'edit') {
+                            // perform edit
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ScreenAddTodo(
+                                          todo: data,
+                                        )));
+                          } else {
+                            // perform delete
+                            context.read<TodoBloc>().add(DeleteTodo(data.id));
+                            // display snackbar when todo gets deleted
+                          }
+                        }, itemBuilder: (context) {
+                          return [
+                            PopupMenuItem(value: 'edit', child: Text("Edit")),
+                            PopupMenuItem(
+                                value: 'delete', child: Text("Delete")),
+                          ];
+                        }),
                       ),
-                      trailing: PopupMenuButton(onSelected: (value) {
-                        if (value == 'edit') {
-                          // perform edit
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ScreenAddTodo(
-                                        todo: data,
-                                      )));
-                        } else {
-                          // perform delete
-                          context.read<TodoBloc>().add(DeleteTodo(data.id));
-                        }
-                      }, itemBuilder: (context) {
-                        return [
-                          PopupMenuItem(value: 'edit', child: Text("Edit")),
-                          PopupMenuItem(
-                              value: 'delete', child: Text("Delete")),
-                        ];
-                      }),
                     ),
-                  ),
-                );
-              },
-            );
-          } else if (state is TodoError) {
-            return Center(child: Text(state.message));
-          }
-          return Center(child: Text('No todos available'));
-        },
+                  );
+                },
+              );
+            } else if (state is TodoError) {
+              return Center(child: Text(state.message));
+            } else if (state is TodoEmpty) {
+              return Center(child: Text('No todos available...'));
+            } 
+            return Center(child: Text("Something went wrong!"),);
+            
+          },
+        ),
       ),
     );
   }
