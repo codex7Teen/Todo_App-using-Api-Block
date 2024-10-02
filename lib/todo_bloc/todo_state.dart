@@ -1,10 +1,37 @@
 part of 'todo_bloc.dart';
 
-sealed class TodoState extends Equatable {
-  const TodoState();
+abstract class TodoState extends Equatable {
   
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class TodoInitial extends TodoState {}
+
+//! Initial state when app is loaded
+class TodoInitial extends TodoState {}
+
+
+//! Loading state when data is being fetched from the API
+class TodoLoading extends TodoState {}
+
+
+//! State when todos are suxxesfully loaded
+class TodoLoaded extends TodoState {
+  final List<TodoModel> todos;
+
+  TodoLoaded(this.todos);
+
+  @override
+  List<Object?> get props => [todos];
+}
+
+
+//! Error state in case API Got failure
+class TodoError extends TodoState {
+  final String message;
+
+  TodoError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

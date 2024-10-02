@@ -15,7 +15,7 @@ class TodoRepository {
   Future<void> addTodo(TodoModel todo) => apiServices.addTodo(todo);
   
   // Update a Todo by ID
-  Future<void> updataTodoById(TodoModel todo) => apiServices.updateTodoById(todo);
+  Future<void> updateTodoById(TodoModel todo) => apiServices.updateTodoById(todo);
 
   // Delete a todo by ID
   Future<void> deleteTodoById(String id) => apiServices.deleteTodoById(id);
