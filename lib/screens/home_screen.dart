@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app_api_block/screens/add_todo_screen.dart';
+import 'package:todo_app_api_block/screens/view_todo.dart';
 import 'package:todo_app_api_block/theme_block/theme_bloc.dart';
 import 'package:todo_app_api_block/todo_bloc/todo_bloc.dart';
 import 'package:todo_app_api_block/widget/snackbar.dart';
@@ -17,7 +18,7 @@ class ScreenHome extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Todo List', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text('ToDo List', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           BlocBuilder<ThemeBloc, ThemeState>(
             builder: (context, state) {
@@ -75,46 +76,52 @@ class ScreenHome extends StatelessWidget {
                   final data = todos[index];
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: ListTile(
-                        title: Text(
-                          data.title,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 17),
+                    child: InkWell(
+                      onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ScreenViewTodo(todo: data,))),
+                      child: Card(
+                        child: ListTile(
+                          title: Text(
+                            data.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 17),
+                          ),
+                          subtitle: Text(data.description,
+                          overflow: TextOverflow.ellipsis,
+                          ),
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.purple,
+                            child: Text('${index + 1}'),
+                          ),
+                          trailing: PopupMenuButton(
+                              iconColor: Colors.purple,
+                              onSelected: (value) {
+                                if (value == 'edit') {
+                                  // perform edit
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ScreenAddTodo(
+                                                todo: data,
+                                              )));
+                                } else {
+                                  // perform delete
+                                  context
+                                      .read<TodoBloc>()
+                                      .add(DeleteTodo(data.id));
+                                  // display snackbar when todo gets deleted
+                                }
+                              },
+                              itemBuilder: (context) {
+                                return [
+                                  PopupMenuItem(
+                                      value: 'edit', child: Text("Edit")),
+                                  PopupMenuItem(
+                                      value: 'delete', child: Text("Delete")),
+                                ];
+                              }),
                         ),
-                        subtitle: Text(data.description,
-                        ),
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.purple,
-                          child: Text('${index + 1}'),
-                        ),
-                        trailing: PopupMenuButton(
-                            iconColor: Colors.purple,
-                            onSelected: (value) {
-                              if (value == 'edit') {
-                                // perform edit
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ScreenAddTodo(
-                                              todo: data,
-                                            )));
-                              } else {
-                                // perform delete
-                                context
-                                    .read<TodoBloc>()
-                                    .add(DeleteTodo(data.id));
-                                // display snackbar when todo gets deleted
-                              }
-                            },
-                            itemBuilder: (context) {
-                              return [
-                                PopupMenuItem(
-                                    value: 'edit', child: Text("Edit")),
-                                PopupMenuItem(
-                                    value: 'delete', child: Text("Delete")),
-                              ];
-                            }),
                       ),
                     ),
                   );
