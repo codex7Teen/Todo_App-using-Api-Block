@@ -17,7 +17,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         final todos = await todoRepository.fetchTodos();
         emit(TodoLoaded(todos));
       } catch (e) {
-        emit(TodoError('Failed to fetch Todos'));
+        emit(TodoError('Failed to fetch Todos...'));
       }
     });
 
@@ -37,7 +37,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         await todoRepository.updateTodoById(event.todo);
         add(FetchTodos());
       } catch (e) {
-        emit(TodoError('Failed to update Todo'));
+        emit(TodoError('Failed to update Todo...'));
       }
     });
 
@@ -47,7 +47,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       await todoRepository.deleteTodoById(event.id);
       add(FetchTodos());
       } catch (e) {
-        emit(TodoError('Failed to delte Todo'));
+        emit(TodoError('Failed to delte Todo...'));
       }
     });
 

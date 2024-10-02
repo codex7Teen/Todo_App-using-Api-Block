@@ -18,7 +18,6 @@ class TodoLoading extends TodoState {}
 //! State when todos are suxxesfully loaded
 class TodoLoaded extends TodoState {
   final List<TodoModel> todos;
-
   TodoLoaded(this.todos);
 
   @override
