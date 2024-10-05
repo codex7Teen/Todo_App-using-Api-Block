@@ -19,7 +19,7 @@ class ApiServices {
       throw Exception('Failed to fetch Todos');
     }
   }
-
+ 
   //! ADD NEW Todo TO API
   Future<void> addTodo(TodoModel todo) async {
     const url = 'https://api.nstack.in/v1/todos';

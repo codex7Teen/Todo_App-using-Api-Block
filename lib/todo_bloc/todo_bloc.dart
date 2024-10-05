@@ -30,6 +30,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     //! Handling Adding a new todo event
     on<AddTodo>((event, emit) async {
+      emit(TodoAddingUpdating());
       try {
         await todoRepository.addTodo(event.todo);
         add(FetchTodos());
@@ -40,6 +41,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     //! Handling Updating a todo event
     on<UpdateTodo>((event, emit) async {
+      emit(TodoAddingUpdating());
       try {
         await todoRepository.updateTodoById(event.todo);
         add(FetchTodos());

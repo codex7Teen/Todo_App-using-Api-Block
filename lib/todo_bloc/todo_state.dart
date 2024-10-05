@@ -6,13 +6,16 @@ abstract class TodoState extends Equatable {
   List<Object?> get props => [];
 }
 
-
 //! Initial state when app is loaded
 class TodoInitial extends TodoState {}
 
 
 //! Loading state when data is being fetched from the API
 class TodoLoading extends TodoState {}
+
+
+//! Loading state when data is being getting adding to updating
+class TodoAddingUpdating extends TodoState{}
 
 
 //! State when todos are suxxesfully loaded
