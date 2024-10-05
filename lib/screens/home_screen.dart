@@ -87,7 +87,8 @@ class ScreenHome extends StatelessWidget {
                 });
               }
               // getting the list of todomodel from the state to the variable todos
-              final todos = state.todos;
+              // reversing the list to make newly added come first
+              final todos = state.todos.reversed.toList();
               return ListView.builder(
                 itemCount: todos.length,
                 itemBuilder: (context, index) {
