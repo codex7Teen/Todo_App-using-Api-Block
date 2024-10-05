@@ -19,8 +19,6 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // if this is false, we are adding, or if its true then we edit
   bool isEdit = false;
-  // This flag will help us track when loading finishes
-   bool wasUpdating = false; 
 
   @override
   void initState() {
@@ -42,7 +40,7 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
   Widget build(BuildContext context) {
     return BlocListener<TodoBloc, TodoState>(
       listener: (context, state) {
-        if (wasUpdating) {
+        if (state is TodoLoaded) {
           // Show snackbar when todo added or updated
           final message = isEdit
               ? 'Todo updated successfully! 🎉🎉'
@@ -125,7 +123,6 @@ class _ScreenAddTodoState extends State<ScreenAddTodo> {
                         child: BlocBuilder<TodoBloc, TodoState>(
                           builder: (context, state) {
                             if (state is TodoAddingUpdating) {
-                              wasUpdating = true; // Set the flag when updating starts 
                               return const CircularProgressIndicator();
                             } else {
                               return Text(

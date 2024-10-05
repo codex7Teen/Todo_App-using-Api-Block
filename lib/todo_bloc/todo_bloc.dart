@@ -14,6 +14,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<FetchTodos>((event, emit) async {
       emit(TodoLoading());
       try {
+        // this is to show the circular indicator in submit button till data gets fetched
+        emit(TodoAddingUpdating());
         final todos = await todoRepository.fetchTodos();
 
         if (todos.isEmpty) {

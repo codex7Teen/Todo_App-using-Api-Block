@@ -74,7 +74,7 @@ class ScreenHome extends StatelessWidget {
         // Block builder
         child: BlocBuilder<TodoBloc, TodoState>(
           builder: (context, state) {
-            if (state is TodoLoading) {
+            if (state is TodoLoading || state is TodoAddingUpdating) {
               // return circular progress indicator when loading
               return const Center(child: CircularProgressIndicator());
             } else if (state is TodoLoaded) {
